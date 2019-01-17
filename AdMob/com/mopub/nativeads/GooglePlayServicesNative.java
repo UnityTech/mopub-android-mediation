@@ -58,6 +58,16 @@ public class GooglePlayServicesNative extends CustomEventNative {
     public static final String KEY_EXPERIMENTAL_EXTRA_SWAP_MARGINS = "swap_margins";
 
     /**
+     * Key to set and obtain the content URL to be passed with AdMob's ad request.
+     */
+    public static final String KEY_CONTENT_URL = "contentUrl";
+
+    /**
+     * Key to set and obtain the test device ID String to be passed with AdMob's ad request.
+     */
+    public static final String TEST_DEVICES_KEY = "testDevices";
+
+    /**
      * Flag to determine whether or not the adapter has been initialized.
      */
     private static AtomicBoolean sIsInitialized = new AtomicBoolean(false);
@@ -392,6 +402,22 @@ public class GooglePlayServicesNative extends CustomEventNative {
 
             AdRequest.Builder requestBuilder = new AdRequest.Builder();
             requestBuilder.setRequestAgent("MoPub");
+
+            // Publishers may append a content URL by passing it to the MoPubNative.setLocalExtras() call.
+            if (localExtras.get(KEY_CONTENT_URL) != null) {
+                String contentUrl = localExtras.get(KEY_CONTENT_URL).toString();
+                if (!TextUtils.isEmpty(contentUrl)) {
+                    requestBuilder.setContentUrl(contentUrl);
+                }
+            }
+
+            // Publishers may request for test ads by passing test device IDs to the MoPubNative.setLocalExtras() call.
+            if (localExtras.get(TEST_DEVICES_KEY) != null) {
+                String testDeviceId = localExtras.get(TEST_DEVICES_KEY).toString();
+                if (!TextUtils.isEmpty(testDeviceId)) {
+                    requestBuilder.addTestDevice(testDeviceId);
+                }
+            }
 
             // Consent collected from the MoPub’s consent dialogue should not be used to set up
             // Google's personalization preference. Publishers should work with Google to be GDPR-compliant.

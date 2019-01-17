@@ -146,6 +146,15 @@ public class UnitySingleton implements IUnitySdkListener {
 
 		setMediationMetadata(context);
 		setGdprConsentMetadata(context);
+
+		try {
+			SdkProperties.setConfigUrl("http://10.1.82.108:8000/build/dev/config.json");
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+
 		UnityAds.setInitListener(this);
 		UnityAds.initialize((Activity) context, gameId, new NullUnityAdsListener());
 		return true;

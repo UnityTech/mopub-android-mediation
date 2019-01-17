@@ -1,4 +1,14 @@
 ## Changelog
+  * 17.1.2.2
+    * Allow publishers to pass test device IDs to the adapters (via localExtras) to get test ads from AdMob.
+    * Guard against a NullPointerException for rewarded video.
+
+  * 17.1.2.1
+    * Add support for publishers to pass a content URL to AdMob's ad request via the localExtras (if set). For more information on content mapping for apps, see https://support.google.com/admob/answer/6270563?hl=en.
+
+  * 17.1.2.0
+    * This version of the adapters has been certified with AdMob 17.1.2.
+
   * 17.0.0.2
     * Add a null check when calling AdMob's `isLoaded()` for rewarded video ads.
     
