@@ -8,13 +8,14 @@ import android.support.annotation.Nullable;
 import com.mopub.common.BaseLifecycleListener;
 import com.mopub.common.LifecycleListener;
 import com.mopub.common.MoPubReward;
-import com.mopub.common.VisibleForTesting;
 import com.mopub.common.logging.MoPubLog;
 import com.unity3d.ads.IUnitySdkListener;
 import com.unity3d.ads.mediation.IUnityAdsExtendedListener;
 import com.unity3d.ads.UnityAds;
 import com.unity3d.services.ads.PlacementAd;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.Map;
 
 public class UnityRewardedVideo extends CustomEventRewardedVideo
@@ -38,16 +39,11 @@ public class UnityRewardedVideo extends CustomEventRewardedVideo
 
         mPlacementId = UnityMediationUtilities.getPlacementIdForServerExtras(serverExtras, mPlacementId);
         mContext = launcherActivity;
-        mPlacementAd = new PlacementAd(mPlacementId);
+        mPlacementAd = new PlacementAd((Activity)mContext, mPlacementId);
         mPlacementAd.setListener(this);
 
         UnitySingleton unitySingleton = UnitySingleton.getInstance();
-        if (unitySingleton.isState(UnitySingleton.UnitySdkInitState.NOT_INITIALIZED)) {
-            return false;
-        } else {
-            unitySingleton.initUnityAds(launcherActivity, serverExtras, this);
-            return true;
-        }
+        return unitySingleton.initUnityAds(launcherActivity, serverExtras, this);
     }
 
     @Override
@@ -70,7 +66,15 @@ public class UnityRewardedVideo extends CustomEventRewardedVideo
     @Override
     public void showVideo() {
     	if (mPlacementAd != null) {
-    	    mPlacementAd.show((Activity) mContext);
+    	    mPlacementAd.show();
+        }
+    }
+
+    private class Foo implements Closeable {
+
+        @Override
+        public void close() throws IOException {
+
         }
     }
 

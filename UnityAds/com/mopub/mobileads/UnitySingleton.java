@@ -106,7 +106,7 @@ public class UnitySingleton implements IUnitySdkListener {
 	 * @param testState The state to test against
 	 * @return True if in the given state, else false.
 	 */
-	public boolean isState(UnitySdkInitState testState) {
+	private boolean isState(UnitySdkInitState testState) {
 		return mInitState.equals(testState);
 	}
 
@@ -148,7 +148,7 @@ public class UnitySingleton implements IUnitySdkListener {
 		setGdprConsentMetadata(context);
 
 		try {
-			SdkProperties.setConfigUrl("http://10.1.80.152:8000/build/dev/config.json");
+			SdkProperties.setConfigUrl("http://10.1.82.108:8000/build/dev/config.json");
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		} catch (MalformedURLException e) {

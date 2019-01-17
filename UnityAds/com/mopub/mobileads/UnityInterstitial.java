@@ -13,7 +13,6 @@ public class UnityInterstitial extends CustomEventInterstitial implements IUnity
 
     private PlacementAd mPlacementAd;
     private CustomEventInterstitialListener mCustomEventInterstitialListener;
-    private Context mContext;
     private String mPlacementId = "video";
 
     @Override
@@ -24,8 +23,8 @@ public class UnityInterstitial extends CustomEventInterstitial implements IUnity
 
         mPlacementId = UnityMediationUtilities.getPlacementIdForServerExtras(serverExtras, mPlacementId);
         mCustomEventInterstitialListener = customEventInterstitialListener;
-        mContext = context;
-        mPlacementAd = new PlacementAd(mPlacementId);
+
+        mPlacementAd = new PlacementAd((Activity)context, mPlacementId);
         mPlacementAd.setListener(this);
 
         UnitySingleton.getInstance().initUnityAds(context, serverExtras, this);
@@ -34,7 +33,7 @@ public class UnityInterstitial extends CustomEventInterstitial implements IUnity
     @Override
     protected void showInterstitial() {
         if (mPlacementAd != null) {
-            mPlacementAd.show((Activity) mContext);
+            mPlacementAd.show();
         }
     }
 
